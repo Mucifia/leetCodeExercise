@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class Medium {
 
@@ -139,10 +142,56 @@ public class Medium {
     }
 
 
+    /**
+     * 求最长子串的长度
+     * 字串中无重复字符
+     * @param s
+     * @return
+     * 2017/12/21
+     * 暴力算法
+     * Test result O(n2）
+     * Time Limit Exceeded（执行完983个测试用例5s）
+     */
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length()==0)return 0;
+        int startindex,endindex,longestLength=1,temp=1;
+        for (startindex=0;startindex<s.length()-longestLength;startindex++)
+            for (endindex=startindex+1;endindex<s.length();){
+            if (s.substring(startindex,endindex).contains(s.substring(endindex,endindex+1))){
+                startindex=startindex+s.substring(startindex,startindex+longestLength).indexOf(s.charAt(endindex))+1;
+                endindex=startindex+1;
+                if (longestLength>temp)
+                    temp=longestLength;
+                longestLength=1;
+            }
+            else{
+                longestLength++;
+                endindex++;
+                }
+            }
+            return temp > longestLength ? temp : longestLength;
+    }
 
-
-
-
+    /**
+     * 滑动窗口算法
+     * 92ms
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring_UseSlideWindow(String s){
+        Set<Character> set = new HashSet<>();
+        int i=0,j=0,longest=0;
+        while(i<s.length() && j<s.length()){
+            if (!set.contains(s.charAt(j))){
+                set.add(s.charAt(j++));
+                if (longest<(j-i))
+                    longest=j-i;
+            }else{
+                set.remove(s.charAt(i++));
+            }
+        }
+        return longest;
+    }
 
     @Test
     public  void main(){
