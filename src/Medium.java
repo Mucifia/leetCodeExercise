@@ -142,7 +142,7 @@ public class Medium {
     }
 
 
-    /**
+    /** https://leetcode.com/problems/longest-substring-without-repeating-characters/solution/
      * 求最长子串的长度
      * 字串中无重复字符
      * @param s
