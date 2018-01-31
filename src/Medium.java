@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -193,8 +192,70 @@ public class Medium {
         return longest;
     }
 
-    @Test
-    public  void main(){
+    /**
+     * 字符串最长回文子串
+     *
+     * @param s
+     * @return
+     */
+    public static String  longestPalindrome(String s) {
+        char[] charString = s.toCharArray();
+        int longest=1,longl=0,longr=1;
+        for (int i =0;i<charString.length;i++){
+            int l1=i,l2=i,r1=i,r2=i+1;
+            int[] a1,a2;
+            a1=Palindrome(l1,r1,charString);
+            a2=Palindrome(l2,r2,charString);
+            if((a1[1]-a1[0]+1)>longest||(a2[1]-a2[0]+1)>longest){
+            if((a1[1]-a1[0])>=(a2[1]-a2[0])){
+                longest=a1[1]-a1[0]+1;
+                longl=a1[0];longr=a1[1]+1;
+            }else{
+                if(a2[1]-a2[0]!=1){
+                    longest=a2[1]-a2[0]+1;
+                    longl=a2[0];longr=a2[1]+1;
+                }else{
+                    if(s.charAt(a2[1])==s.charAt(a2[0])){
+                        longest=2;
+                        longl=a2[0];longr=a2[1]+1;
+                    }
+                }
+            }
+            }
+        }
+        if(longest==1)
+            return s.substring(0,1);
+        return s.substring(longl,longr);
+    }
+
+    public static int[] Palindrome(int left , int right , char[] strings){
+        if(left<=-1||right>=strings.length) {
+            return new int[]{left + 1, right - 1};
+        }
+        if(left!=0&&right!=strings.length-1&&strings[left-1]!=strings[right+1]){
+            return new int[]{left,right};
+        }
+        if(strings[left]!=strings[right]&&(right-left)>1){
+            return  new int[]{left+1,right-1};
+        }
+        if(strings[left]!=strings[right]&&(right-left)==1){
+            return  new int[]{left,right};
+        }
+        return Palindrome(left-1,right+1,strings);
+
+    }
+
+
+
+    public static void main(String[] args) {
+        String a = longestPalindrome("aaabaaaa");
+        String b = longestPalindrome("abcda");
+        String c = longestPalindrome("babad");
+        String d = longestPalindrome("bbbbbbbbgggggg");
+        String e = longestPalindrome("ccc");
+        String f = longestPalindrome("bcc");
+        String g = longestPalindrome("abadd");
+        String h = longestPalindrome("bppb1sooos");
     }
 
 }
