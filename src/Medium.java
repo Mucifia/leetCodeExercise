@@ -1,5 +1,9 @@
 
+import org.junit.Test;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -246,6 +250,51 @@ public class Medium {
     }
 
 
+    /**
+     * ZigZag Conversion
+     * @param s
+     * @param numRows
+     * @return
+     */
+
+    public String convert(String s, int numRows) {
+        char[] chars = s.toCharArray();
+        int[][] step=new int[(numRows+1)/2][2];
+        if (chars.length<2||numRows==1||numRows>=chars.length){
+            return s;
+        }
+        char[] newchars = new char[chars.length];
+        int index=0;
+        for (int i=0;i<(numRows+1)/2;i++){
+            step[i][0] = 2*(i>numRows-i ? i : numRows-i)-1;
+            step[i][1] = 2*numRows -step[i][0];
+            if(i==0) {
+                step[i][1] = step[i][0];
+            }
+        }
+        for (int j =0;j<numRows;j++){
+            int col=0;
+            if(j<(numRows+1)/2){
+                for (int k=j;k<chars.length;k=k+step[j][(col-1)%2]-1){
+                    newchars[index]=chars[k];
+                    index++;
+                    col++;
+                }
+            }else{
+                for (int k=j;k<chars.length;k=k+step[numRows-1-j][col%2]-1){
+                    newchars[index]=chars[k];
+                    index++;
+                    col++;
+                }
+            }
+        }
+        return new String(newchars);
+    }
+
+    @Test
+    public void test(){
+        String a  =convert("ABCDE",4);
+    }
 
     public static void main(String[] args) {
         String a = longestPalindrome("aaabaaaa");
