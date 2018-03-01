@@ -291,9 +291,40 @@ public class Medium {
         return new String(newchars);
     }
 
+    /**
+     * String to integer
+     * consider all situation of String and ignore or transform the characters
+     * @param str
+     * @return
+     */
+    public int myAtoi(String str) {
+        String newString = str.trim();
+        boolean minus = false;
+        int index = 0;int total=0;
+        if(newString.length()==0){
+            return 0;
+        }
+        if(newString.charAt(index) =='+' || newString.charAt(index)=='-'){
+            minus =(newString.charAt(index)=='+' ? false : true);
+            index++;
+        }
+        while(index<newString.length()){
+            if (newString.charAt(index)<'0'||newString.charAt(index)>'9'){
+                break;
+            }else{
+                int num=newString.charAt(index)-'0';
+                if (total>Integer.MAX_VALUE/10 || (total==Integer.MAX_VALUE/10 && Integer.MAX_VALUE%10<=num)){
+                    return minus ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+                }
+                total=total*10+num;
+                index++;
+            }
+        }
+        return total*(minus ? -1:1);
+    }
     @Test
     public void test(){
-        String a  =convert("ABCDE",4);
+        int a = myAtoi("2147483648");
     }
 
     public static void main(String[] args) {
