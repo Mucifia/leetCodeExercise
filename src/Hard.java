@@ -1,3 +1,5 @@
+import org.junit.Test;
+
 public class Hard {
     /**
      * 自己的解法，先将其变为有序，再取其中位数
@@ -88,10 +90,118 @@ public class Hard {
             return 0.0;
         }
 
+    /**
+     * 10. Regular Expression Matching
+     *
+     * Implement regular expression matching with support for '.' and '*'.
 
-    public static void main(String[] args){
-        int[] a = {1,2};
-        int[] b = {3,4};
-        findMedianSortedArrays(a,b);
+     * '.' Matches any single character.
+     * '*' Matches zero or more of the preceding element.
+     *
+     * 此方法使用一维数组，无法有效*表示的0个或多个情况下的成立
+     * 一开始想的是字符串与Pattern从左开始匹配，每一次匹配已经认为前面匹配为最优解，
+     * 跑通370个测试用例，就失败了，一维数组想不出如何表示*的零个或多个的何为最优解
+     */
+    public boolean isMatch(String s, String p) {
+        char[] chars_s = s.toCharArray();
+        char[] chars_p = p.toCharArray();
+        int s_index=0,p_index =0;
+        //1.相同数字匹配，从左开始匹配
+        while (s_index<chars_s.length&&p_index<chars_p.length){
+            int temp_s=-1,temp_p=-1;
+            if (chars_s[s_index]==chars_p[p_index] || chars_p[p_index]=='.'){
+                temp_s = s_index;
+                temp_p = p_index;
+                s_index++;
+            }
+            p_index++;
+            //匹配到了星号，此处应该有超过2字符返回false，要不然，aaa 会与aca*匹配成功，
+            if (p_index<chars_p.length&&chars_p[p_index]=='*'){
+                //在后面的测试用例中，发现，无法使右侧选择性匹配，即aca 与 aca*a*此类状况，使前一个a*选择性匹配0
+                if(temp_s>-1&&temp_p>-1){
+                    //为x匹配x*状况
+                    int temp=temp_s;
+                    while (s_index<chars_s.length&&(chars_s[temp_s]==chars_s[s_index]||chars_p[temp_p]=='.')) {
+                        s_index++;
+                    }
+                    p_index++;
+                    //左侧过度匹配了？
+                    while (p_index<chars_p.length&&chars_s[temp]==chars_p[p_index]){
+                        p_index++;
+                    }
+                }else{
+                    p_index++;
+                }
+
+            }
+        }
+        return s_index==chars_s.length&&p_index==chars_p.length;
+        /**
+         * 总结：1.*号情况下考虑不周，一维数组无法很好表示匹配情况
+         *      2. DP没有选择好数据结构，后面写的纯属修补
+         */
     }
+
+    /**
+     *使用DP2维数组解决
+     * Boolean array[i][j]代表 s[i-1]与p[j-1]是否匹配成功
+     * if p[j]==s[i] : array[i+1][j+1]=array[i][j]
+     * if p[j]=='.'  ：array[i+1][j+1] = array[i][j]
+     * if p[j] =='*' :
+     *          if p[j-1]=!s[i] : array[i+1][j+1]=array[i+1][j-1]
+     *          if p[j-1]==s[i]||p[j-1]=='.':
+     *                      匹配多次，array[i+1][j+1]=array[i][j+1]
+     *                      匹配0次, array[i+1][j+1]=array[i+1][j-1]
+     *                      匹配1次，array[i+1][j+1]=array[i+1][j]
+     *
+     */
+    /**
+     * 此种ismatch数组考虑了空对空，故与数组坐标有偏移，直接使用String.charAt()则可
+     * @param s
+     * @param p
+     * @return
+     */
+    public boolean isMatch1(String s, String p){
+        char[] chars_s = s.toCharArray();
+        char[] chars_p = p.toCharArray();
+        boolean ismatch[][] = new boolean[chars_s.length+1][chars_p.length+1];
+        ismatch[0][0]=true;
+        //init 2D array
+        // think about "" versus a*b*c*
+        for (int j =1;j<chars_p.length;j++){
+            if (chars_p[j]=='*'&&(j>0&&ismatch[0][j-1])) {
+                ismatch[0][j+1]=true;
+            }
+        }
+        for (int i =0; i<chars_s.length;i++){
+            for (int j =0; j<chars_p.length;j++){
+                if (chars_p[j]==chars_s[i]||chars_p[j]=='.'){
+                    ismatch[i+1][j+1]=ismatch[i][j];
+                }
+                if (chars_p[j]=='*'){
+                    if (chars_s[i]!=chars_p[j-1]){
+                        ismatch[i+1][j+1]=ismatch[i+1][j-1];
+                    }
+                    if (chars_s[i]==chars_p[j-1]||chars_p[j-1]=='.'){
+                        ismatch[i+1][j+1]=ismatch[i+1][j-1]||ismatch[i+1][j]||ismatch[i][j+1];
+                    }
+                }
+            }
+        }
+        return ismatch[chars_s.length][chars_p.length];
+    }
+
+
+    @Test
+    public void test(){
+        boolean a = isMatch1("aa","aca*");
+        boolean h = isMatch1("aa","a*");
+        boolean b = isMatch1("aa","aa");
+        boolean c = isMatch1("aaa","aa");
+        boolean d =  isMatch1("aaa", "a*a");
+        boolean e = isMatch1("aa", ".*");
+        boolean f =  isMatch1("ab", ".*");
+        boolean g =  isMatch1("aab", "c*a*b");
+    }
+
 }
