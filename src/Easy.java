@@ -39,12 +39,33 @@ public class Easy {
         return reversed*(x>0 ? 1 : -1);
     }
 
+
+    /**
+     * Is an Integer is a Palindrome Integer
+     * @param x
+     * @return
+     */
+    public boolean isPalindrome(int x) {
+        int tailNum=0;
+        if(x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+        while(x>tailNum){
+            tailNum=tailNum*10+x%10;
+            x=x/10;
+            if (x==tailNum/10||x==tailNum){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Test
     public void test(){
-        int a = reverse(-2147483648);
-        int b = reverse(-123);
-        int c = reverse(120);
-        int d = Integer.MAX_VALUE;
+        boolean a = isPalindrome(123);
+        boolean b =isPalindrome(0);
+        boolean c = isPalindrome(-12321);
+        boolean d = isPalindrome(10);
     }
 
 }
