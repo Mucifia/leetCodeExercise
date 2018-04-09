@@ -1,3 +1,4 @@
+package com.mmy.leetcode.medium;
 
 import org.junit.Test;
 
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class Medium {
+public class Medium1 {
 
     public class ListNode{
         int val;

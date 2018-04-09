@@ -1,6 +1,8 @@
+package com.mmy.leetcode.easy;
+
 import org.junit.Test;
 
-public class Easy {
+public class Easy1 {
 
     /**
      * Two sum

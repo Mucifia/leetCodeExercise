@@ -1,6 +1,8 @@
+package com.mmy.leetcode.hard;
+
 import org.junit.Test;
 
-public class Hard {
+public class Hard1 {
     /**
      * 自己的解法，先将其变为有序，再取其中位数
      * 时间复杂度为nums1.length+nums2.length
