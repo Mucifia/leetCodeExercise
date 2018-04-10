@@ -1,5 +1,6 @@
 package com.mmy.leetcode.medium;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -114,31 +115,19 @@ public class Medium2 {
 
 
 
+
+    /**
+     * Write a function to find the longest common prefix string amongst an array of strings.
+     * @param strs
+     * @return
+     */
+    public String longestCommonPrefix(String[] strs) {
+        return "";
+    }
+
     @Test
     public void test(){
-            String a = intToRoman(44);
-            String b = intToRoman(9);
-            String c = intToRoman(19);
-            String d = intToRoman(99);
-            String e = intToRoman(20);
-            String f = intToRoman(30);
-            String g = intToRoman(40);
-            String h = intToRoman(101);
-            String i = intToRoman(102);
-            String j = intToRoman(199);
-            String k = intToRoman(200);
-            String l = intToRoman(3999);
-            String m = intToRoman(1999);
-            String n = intToRoman(18);
-//            String o = intToRoman(1);
-//            String p = intToRoman(1);
-//            String q = intToRoman(1);
-//            String r = intToRoman(1);
-//            String s = intToRoman(1);
-//            String t = intToRoman(1);
-//            String u = intToRoman(1);
-//            String v = intToRoman(1);
-//            String w = intToRoman(1);
+
         }
 
 }

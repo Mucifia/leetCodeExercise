@@ -2,6 +2,9 @@ package com.mmy.leetcode.easy;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Easy1 {
 
     /**
@@ -62,6 +65,32 @@ public class Easy1 {
         return false;
     }
 
+
+
+    /**
+     * Given a roman numeral, convert it to an integer.
+     Input is guaranteed to be within the range from 1 to 3999
+     * @param s
+     * @return
+     */
+    public int romanToInt(String s) {
+        StringBuilder string = new StringBuilder(s);
+        int[] _num = {1,5,10,50,100,500,1000};
+        String[] _string = {"I","V","X","L","C","D","M"};
+        List list = Arrays.asList(_string);
+        int out=0;
+        for (int i =0;i<string.length();i++){
+            int var1=list.indexOf(string.substring(i,i+1));
+            int var2=i+2>string.length() ? 0 : list.indexOf(string.substring(i+1,i+2));
+            if (var1<var2){
+                out=out+_num[var2]-_num[var1];
+                i++;
+            }else{
+                out=out+_num[var1];
+            }
+        }
+        return out;
+    }
     @Test
     public void test(){
         boolean a = isPalindrome(123);
