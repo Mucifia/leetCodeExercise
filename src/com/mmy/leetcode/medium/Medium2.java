@@ -3,6 +3,7 @@ package com.mmy.leetcode.medium;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author: mmy
@@ -53,9 +54,91 @@ public class Medium2 {
         return maxArea;
     }
 
+    /**
+    Given an integer, convert it to a roman numeral.
+    Input is guaranteed to be within the range from 1 to 3999.
+     Ⅰ（1）、Ⅴ（5）、Ⅹ（10）、Ⅼ（50）、Ⅽ（100）、Ⅾ（500）、Ⅿ（1000）
+    **/
+    /**
+     * use recursion
+     * 里面数据结构优化下，可能会更快
+     * @param num
+     * @return
+     */
+    public String intToRoman(int num) {
+        StringBuilder romanString = new StringBuilder();
+        transfer(num,6,romanString);
+        return  romanString.toString();
+    }
+
+    private void transfer(int input,int index , StringBuilder output){
+        int[] _num = {1,5,10,50,100,500,1000};
+        String[] _string = {"I","V","X","L","C","D","M"};
+        if (input==0) return;
+        int head = input/_num[index];
+        int _numWithoutHead = input%_num[index];
+        if (head>0&&head<4){
+            for (int i=0;i<head;i++) output.append(_string[index]);
+        }else if (head>0){
+            List list =Arrays.asList(_string);
+            String tail="";
+            if (output.length()!=0&&list.indexOf(output.subSequence(output.length()-1,output.length()))-index==1){
+                output.delete(output.length()-1,output.length());
+                tail = _string[index].concat(_string[index+2]);
+            }else{
+                tail=_string[index].concat(_string[index+1]);
+            }
+            output.append(tail);
+        }
+        transfer(_numWithoutHead,index-1,output);
+    }
+
+    //讨论区的某解法，学到了
+//    public enum Type{
+//        M(1000),CM(900),D(500),CD(400),C(100),XC(90),L(50),XL(40),X(10),IX(9),V(5),IV(4),I(1);
+//        private final int value;
+//        Type(int value) {
+//            this.value = value;
+//        }
+//    };
+//    public String intToRoman2(int num) {
+//        StringBuilder output = new StringBuilder();
+//        for (Type t:Type.values()) {
+//            while (num>=t.value) {
+//                output.append(t);
+//                num -= t.value;
+//            }
+//        }
+//        return output.toString();
+//    }
+
+
+
     @Test
     public void test(){
-            int are = maxArea(new int[]{0,3});
+            String a = intToRoman(44);
+            String b = intToRoman(9);
+            String c = intToRoman(19);
+            String d = intToRoman(99);
+            String e = intToRoman(20);
+            String f = intToRoman(30);
+            String g = intToRoman(40);
+            String h = intToRoman(101);
+            String i = intToRoman(102);
+            String j = intToRoman(199);
+            String k = intToRoman(200);
+            String l = intToRoman(3999);
+            String m = intToRoman(1999);
+            String n = intToRoman(18);
+//            String o = intToRoman(1);
+//            String p = intToRoman(1);
+//            String q = intToRoman(1);
+//            String r = intToRoman(1);
+//            String s = intToRoman(1);
+//            String t = intToRoman(1);
+//            String u = intToRoman(1);
+//            String v = intToRoman(1);
+//            String w = intToRoman(1);
         }
 
 }
