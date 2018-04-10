@@ -1,5 +1,6 @@
 package com.mmy.leetcode.easy;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -91,12 +92,68 @@ public class Easy1 {
         }
         return out;
     }
+
+    /**
+     * Write a function to find the longest common prefix string amongst an array of strings.
+     * @param strs
+     * @return
+     */
+    /**
+     * 典型的代码水平无法实现想法的例子！
+     * 在后面弥补了大量补偿代码，代码量过少的提现。
+     * ********！！！！！！！！！
+     * @param strs
+     * @return
+     */
+//    public String longestCommonPrefix(String[] strs) {
+//        StringBuilder string = new StringBuilder();
+//        if (strs.length>0){
+//            int index=0,len=strs[0].length();
+//            string.append(strs[0].length()>0 ? strs[0].charAt(0):"");
+//            String temp;
+//            for (int i =1;i<strs.length;i++){
+//                if (strs[i].length()==len&&index<len-1){
+//                    temp=string.toString().concat(String.valueOf(strs[0].charAt(index+1)));
+//                    if (strs[i].indexOf(temp)==0){
+//                        index++;
+//                        string.append(strs[0].charAt(index));
+//                    }
+//                }else if (strs[i].length()<len){
+//                    len=strs[i].length();
+//                    index=strs[i].length()-1;
+//                    while (index!=0&&strs[i].indexOf(string.toString())!=0){
+//                        string.delete(index,index+1);
+//                        index--;
+//                    }
+//                }else {
+//                    while (index!=-1&&strs[i].indexOf(string.toString())!=0){
+//                        string.delete(index,index+1);
+//                        index--;
+//                    }
+//                }
+//
+//            }
+//        }
+//        return string.toString();
+//    }
+
+    public String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0) return "";
+        String prefix = strs[0];
+        for (int i = 1; i < strs.length; i++)
+            while (strs[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+                if (prefix.isEmpty()) return "";
+            }
+        return prefix;
+    }
+
     @Test
     public void test(){
-        boolean a = isPalindrome(123);
-        boolean b =isPalindrome(0);
-        boolean c = isPalindrome(-12321);
-        boolean d = isPalindrome(10);
+        String a = longestCommonPrefix(new String[]{"123","124","125"});
+        String b =longestCommonPrefix(new String[]{"23","24","25"});
+        String c = longestCommonPrefix(new String[]{"1","124","125"});
+        String d = longestCommonPrefix(new String[]{""});
     }
 
 }

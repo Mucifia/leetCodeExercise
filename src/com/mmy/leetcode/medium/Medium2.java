@@ -113,18 +113,6 @@ public class Medium2 {
 //        return output.toString();
 //    }
 
-
-
-
-    /**
-     * Write a function to find the longest common prefix string amongst an array of strings.
-     * @param strs
-     * @return
-     */
-    public String longestCommonPrefix(String[] strs) {
-        return "";
-    }
-
     @Test
     public void test(){
 
