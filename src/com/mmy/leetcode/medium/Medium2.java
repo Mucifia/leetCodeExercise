@@ -1,5 +1,11 @@
 package com.mmy.leetcode.medium;
 
+import com.mmy.leetcode.medium.Medium1.ListNode;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -113,8 +119,44 @@ public class Medium2 {
 //        return output.toString();
 //    }
 
+    /*
+    Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0?
+    Find all unique triplets in the array which gives the sum of zero.
+    Note: The solution set must not contain duplicate triplets.
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+        Set set = new HashSet();
+        Arrays.sort(nums);//之前只知道Collection.Sort,现在知道了新的方法
+        //先固定一个值，随机从剩余部分两端滑动，逻辑理清就可以解
+        //num[i]<0,减少循环次数
+        //nums.length>0， []情况
+        //i<nums.length-2 方式数组越界
+        for (int i=0;i<nums.length-2&&nums.length>0&&nums[i]<0;i++){
+            int left = i+1;
+            int right = nums.length-1;
+            while (i<left&&left<right){
+                if (nums[i]+nums[left]+nums[right]<0){
+                    left++;
+                }else if (nums[i]+nums[left]+nums[right]>0){
+                    right--;
+                }else {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[i]);
+                    list.add(nums[left]);
+                    list.add(nums[right]);
+                    set.add(list);
+                    left++;
+                    right--;
+                }
+            }
+        }
+
+        return new ArrayList<>(set);
+    }
     @Test
     public void test(){
+        List<List<Integer>> listList = threeSum(new int[]{2,1,-3,0,0,-2,4,-2});
+        List<List<Integer>> listList2 = threeSum(new int[]{0,0,0});
 
         }
 
