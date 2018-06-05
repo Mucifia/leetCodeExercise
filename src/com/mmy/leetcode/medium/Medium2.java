@@ -153,11 +153,37 @@ public class Medium2 {
 
         return new ArrayList<>(set);
     }
+
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int result=nums[0]+nums[1]+nums[nums.length-1]-target;
+        for (int i = 0;i<nums.length-2;i++){
+            int left=i+1;
+            int right=nums.length-1;
+            int temp,last;
+            while (i<left&&left<right){
+                temp=nums[i]+nums[left]+nums[right]-target;
+                if((temp>0 ?temp : -1*temp)-(result>0 ?result : -1*result)<0){
+                    result=temp;
+                }
+                if (temp<0){
+                    left++;
+                }else if (temp>0){
+                    right--;
+                }else {
+                    break;
+                }
+            }
+            if (result==0)break;
+        }
+        return result+target;
+    }
+
+
     @Test
     public void test(){
-        List<List<Integer>> listList = threeSum(new int[]{2,1,-3,0,0,-2,4,-2});
-        List<List<Integer>> listList2 = threeSum(new int[]{0,0,0});
-
+        int a = threeSumClosest(new int[]{2,1,-3,0,0,-2,4,-2},-7);
+        int b = threeSumClosest(new int[]{0,0,0},1);
         }
 
 }
