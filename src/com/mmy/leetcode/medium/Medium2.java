@@ -1,6 +1,7 @@
 package com.mmy.leetcode.medium;
 
 import com.mmy.leetcode.medium.Medium1.ListNode;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -179,11 +180,29 @@ public class Medium2 {
         return result+target;
     }
 
+    public List<String> letterCombinations(String digits) {
+        String digitletter[] = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        List<String> list = new ArrayList<>();
+        if (digits.length()==0){
+            return list;
+        }
+        list.add("");
+        for (int i =0;i<digits.length();i++){
+            String op = digitletter[digits.charAt(i)-'0'];
+            List<String> temp =new ArrayList<>();
+            for (int j=0;j<op.length();j++){
+                for (String s1:list) {
+                    temp.add(s1+op.charAt(j));
+                }
+            }
+            list=temp; //关键，每次叠加覆盖list即可
+        }
+        return list;
+    }
+
 
     @Test
     public void test(){
-        int a = threeSumClosest(new int[]{2,1,-3,0,0,-2,4,-2},-7);
-        int b = threeSumClosest(new int[]{0,0,0},1);
-        }
-
+        List<String> list = letterCombinations("756");
+    }
 }
