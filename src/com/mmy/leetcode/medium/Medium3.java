@@ -2,6 +2,7 @@ package com.mmy.leetcode.medium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -116,10 +117,12 @@ public class Medium3 {
 
   @Test
   public void test() {
-    ListNode s = new ListNode(2);
-    ListNode s1 = new ListNode(3);
-    s.next=s1;
-    ListNode sx = removeNthFromEnd2(s,1);
+//    ListNode s = new ListNode(2);
+//    ListNode s1 = new ListNode(3);
+//    s.next=s1;
+//    ListNode sx = removeNthFromEnd2(s,1);
+
+    List<String> list = generateParenthesis(3);
   }
 
   public class ListNode {
@@ -131,4 +134,65 @@ public class Medium3 {
       val = x;
     }
   }
+
+  /**
+   * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+   * @param n
+   * @return
+   */
+  public List<String> generateParenthesis(int n) {
+    Set<String> strings = new HashSet<>();
+    strings.add("");
+    for (int i=0;i<n;i++){
+      Set<String> newSet = new HashSet<>();
+      for (String s : strings){
+        for (int j =0;j<s.length();j++){
+          StringBuilder stringBuilder = new StringBuilder(s);
+          newSet.add(stringBuilder.insert(j,"()").toString());
+        }
+      }
+      strings=newSet;
+    }
+    return new ArrayList<>(strings);
+  }
+
+  /**
+   * 网上速度最快的人的解法，很有启发
+   * @param n
+   * @return
+   */
+  public List<String> generateParenthesis2(int n) {
+    List<String> allStr = new ArrayList<String>();
+    gP(n,n,new char[2*n],allStr);
+    return allStr;
+
+  }
+
+  /**
+   *
+   * @param a 左括号个数
+   * @param b 右括号个数
+   * @param str 生成值
+   * @param allStr 最终集合
+   */
+  public void gP(int a,int b,char[] str,List<String> allStr){
+    if(a==0){
+      while(b>0){
+        str[str.length-b]=')';
+        b--;
+      }
+
+      allStr.add(String.valueOf(str));
+    }
+    else{
+      int n = str.length-(a+b);
+      if(a<b){
+        str[n]='(';gP(a-1,b,str,allStr);
+        str[n]=')';gP(a,b-1,str,allStr);
+      }else{
+        str[n]='(';gP(a-1,b,str,allStr);
+      }
+    }
+  }
+
 }
