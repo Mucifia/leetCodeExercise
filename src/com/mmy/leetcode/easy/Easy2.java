@@ -63,9 +63,57 @@ public class Easy2 {
   }
 
 
+  /**
+   * 第一次思路是，元素逐渐左移，最后多余操作过多
+   * @param nums
+   * @return
+   */
+  public int removeDuplicates(int[] nums) {
+    int index =0;
+    int count=0;
+    for (int i =1;i<nums.length;){
+
+      if (nums[i]==nums[index]){
+        if (count>nums.length-index){
+          break;
+        }
+        for (int j =i;j<nums.length-1;j++){
+          nums[j]=nums[j+1];
+        }
+        count++;
+      }else {
+        index=i;
+        i++;
+        count=0;
+      }
+    }
+    return index+1;
+  }
+
+  /**
+   * 看了网上的优秀答案，启发，直接用不同值替换前n个即可，学到了
+   * @param nums
+   * @return
+   */
+  public int removeDuplicates2(int[] nums){
+    if (nums.length==0){
+      return 0;
+    }
+    int size=1;
+    int num =nums[0];
+    for (int i =1;i<nums.length;i++){
+      if (num==nums[i]){
+        continue;
+      }
+      nums[size++]=nums[i];
+      num=nums[i];
+    }
+    return size;
+  }
+
   @Test
   public void test() {
-    isValid("}");
+    int j =removeDuplicates2(new int[]{1,1,2});
   }
 }
 
