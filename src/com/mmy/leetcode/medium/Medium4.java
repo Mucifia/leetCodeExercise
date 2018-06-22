@@ -2,6 +2,7 @@ package com.mmy.leetcode.medium;
 
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Queue;
 import org.junit.jupiter.api.Test;
 
@@ -92,9 +93,35 @@ public class Medium4 {
   }
 
 
+  /**
+   * Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+   * If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).
+   * https://leetcode.com/problems/next-permutation/solution/
+   * @param nums
+   */
+  public void nextPermutation(int[] nums) {
+    int i = nums.length-2;
+    for (;i>=0;i--){
+      if (nums[i]<nums[i+1]){
+        break;
+      }
+    }
+    int index = i;
+    if (index>-1){
+    int temp = nums[index];
+    while (i<nums.length-1&&temp<nums[i+1]){
+      i++;
+    }
+    nums[index]=nums[i];
+    nums[i]=temp;
+    }
+    Arrays.sort(nums,index+1,nums.length);
+  }
+
   @Test
   public void test() {
-    int a  = divide(-2147483648,1);
+    int[] nums = new int[]{1,5,1};
+    nextPermutation(nums);
   }
 }
 
