@@ -101,11 +101,13 @@ public class Medium4 {
    */
   public void nextPermutation(int[] nums) {
     int i = nums.length-2;
+    //find swap index
     for (;i>=0;i--){
       if (nums[i]<nums[i+1]){
         break;
       }
     }
+    //find the num to swap
     int index = i;
     if (index>-1){
     int temp = nums[index];
@@ -115,6 +117,7 @@ public class Medium4 {
     nums[index]=nums[i];
     nums[i]=temp;
     }
+    //sort the rest
     Arrays.sort(nums,index+1,nums.length);
   }
 

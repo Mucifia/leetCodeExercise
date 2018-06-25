@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -221,10 +222,51 @@ public class Hard2 {
   }
 
 
+  /**
+   * Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+   * 一开始思考的是栈中存符号，在处理子串case会出错，因为无法保留子串首的index，
+   * 查看hint后，改正如下
+   * @param s
+   * @return
+   */
+  public int longestValidParentheses(String s) {
+    Stack<Integer> stack = new Stack<>();
+    stack.push(-1);
+    int stringIndex = 0;
+    int longest=0;
+    int count=0;
+    while (stringIndex<s.length()){
+      char c = s.charAt(stringIndex);
+      if (c=='('){
+        //提供被匹配和被匹配的串首index作用
+        stack.push(stringIndex);
+      }else {
+        //初始化插入的栈底-1，既保证初始index，还保证了，若一直不匹配，栈中只会有1个元素，做了定位作用
+        stack.pop();
+        if (!stack.empty()){
+          //只可能是匹配到(，计数
+          count=stringIndex-stack.peek();
+          if (count>longest){
+            longest=count;
+          }
+        }else {
+          //the stack becomes empty, we push the current element's index onto the stack.
+          // In this way, we keep on calculating the lengths of the valid substrings,
+          // and return the length of the longest valid string at the end.
+          //此举对应，若为），则提供被已匹配的串首index作用
+          stack.push(stringIndex);
+        }
+      }
+      stringIndex++;
+    }
+    return longest;
+  }
+
 
   @Test
   public void test(){
-    List<Integer> resulst = findSubstring2("foorbarfoosssssbarfoo",new String[]{"foo","bar"});
+    String s = "()()((((((())(((())()(((()";
+    int i  =longestValidParentheses(s);
   }
 
 
