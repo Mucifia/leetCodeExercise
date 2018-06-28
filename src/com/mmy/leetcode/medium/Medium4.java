@@ -121,10 +121,61 @@ public class Medium4 {
     Arrays.sort(nums,index+1,nums.length);
   }
 
+
+  /**
+   * Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+   * (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+   * You are given a target value to search. If found in the array return its index, otherwise return -1.
+   *
+   * my opinion is find the pivot then binarySearch the two sub arrays,
+   * @param nums
+   * @param target
+   * @return
+   */
+  public int search(int[] nums, int target) {
+    int pivot=-1;
+    if (nums.length==0){
+      return -1;
+    }
+    for (int i=0;i<nums.length-1;i++){
+      if (nums[i]>nums[i+1]){
+        pivot=i;
+        break;
+      }
+    }
+    if (target>=nums[pivot+1]&&target<=nums[nums.length-1]){
+      return binarySearch(pivot+1,nums.length-1,nums,target);
+    }
+    if (pivot>-1&&target>=nums[0]&&target<=nums[pivot]){
+      return binarySearch(0,pivot,nums,target);
+    }
+    return -1;
+  }
+  public int binarySearch(int start,int end,int[] nums,int target){
+    if (start!=end){
+    int middle = (end+start)/2;
+    if (nums[middle]<target){
+      return binarySearch(middle+1,end,nums,target);
+    }else if (nums[middle]>target){
+      return binarySearch(start,middle,nums,target);
+    }else {
+      return middle;
+    }
+    }else {
+      if (nums[start]==target){
+        return start;
+      }
+    }
+    return -1;
+  }
+
+
+
+
   @Test
   public void test() {
-    int[] nums = new int[]{1,5,1};
-    nextPermutation(nums);
+    int[] nums = new int[]{1};
+    int result = search(nums,2);
   }
 }
 
