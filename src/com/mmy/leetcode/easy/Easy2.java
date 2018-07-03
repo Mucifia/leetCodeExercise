@@ -174,11 +174,36 @@ public class Easy2 {
     }
   }
 
+  /**
+   * binarySearch 注意边角料。不是right = nums.length就是while(left<right)
+   * @param nums
+   * @param target
+   * @return
+   */
+  public int searchInsert(int[] nums, int target) {
+    int left = 0,right = nums.length;
+    if (nums.length==1){
+      return nums[0]>target?0:1;
+    }
+    while (left<right){
+      int middle = (left+right)/2;
+      if (nums[middle]<target){
+        left=middle+1;
+      }else if(nums[middle]>target){
+        right=middle;
+      }else {
+        return middle;
+      }
+    }
+    return left;
+  }
+
+
 
   @Test
   public void test() {
-    String a = "bacbababadababacambabacaddababacasdsd";
-    int index = strStr(a, "ababaca");
+    int[] a = new int[]{1,3,5,6};
+    int index = searchInsert(a,2);
   }
 }
 

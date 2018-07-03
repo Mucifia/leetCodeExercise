@@ -93,7 +93,7 @@ public class Medium5 {
 
   @Test
   public void test(){
-    int[] nums = {2,2};
-    int[] result = searchRange(nums,2);
+    int[] nums = {1,2,2,3,4,5,6};
+    int[] result = searchRange2(nums,2);
   }
 }
