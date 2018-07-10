@@ -1,5 +1,6 @@
 package com.mmy.leetcode.medium;
 
+import java.util.Set;
 import org.junit.Test;
 
 /**
@@ -90,10 +91,45 @@ public class Medium5 {
   }
 
 
+  /**
+   * Determine if a 9x9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+   * 1.Each row must contain the digits 1-9 without repetition.
+   * 2.Each column must contain the digits 1-9 without repetition.
+   * 3.Each of the 9 3x3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+   * @param board
+   * @return
+   */
+  public boolean isValidSudoku(char[][] board) {
+
+    //row x colum y means  rows x have y numbers
+    boolean columValid[][] = new boolean[9][9];
+    //row x colum y means the sub-box x have y numbers;
+    boolean subValid[][] = new boolean[9][9];
+    for (int i=0;i<9;i++){
+      boolean rowValid[] = new boolean[9];
+      for (int j=0;j<9;j++){
+        char c = board[i][j];
+        if (c!='.'){
+        int index = c-'1';
+        int subBoxIndex = i/3*3+j/3;
+        if (rowValid[index]||columValid[j][index]||subValid[subBoxIndex][index]){
+          return false;
+        }
+        rowValid[index]=true;
+        columValid[j][index]=true;
+        subValid[subBoxIndex][index]=true;
+      }
+      }
+    }
+    return true;
+  }
+
+
+
 
   @Test
   public void test(){
-    int[] nums = {1,2,2,3,4,5,6};
-    int[] result = searchRange2(nums,2);
+    char[][] nums=new char[][]{{'5','3','.','.','7','.','.','.','.'},{'6','.','.','1','9','5','.','.','.'},{'.','9','8','.','.','.','.','6','.'},{'8','.','.','.','6','.','.','.','3'},{'4','.','.','8','.','3','.','.','1'},{'7','.','.','.','2','.','.','.','6'},{'.','6','.','.','.','.','2','8','.'},{'.','.','.','4','1','9','.','.','5'},{'.','.','.','.','8','.','.','7','9'}};
+    boolean b = isValidSudoku(nums);
   }
 }
