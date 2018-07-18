@@ -1,5 +1,7 @@
 package com.mmy.leetcode.hard;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Test;
 
 /**
@@ -29,9 +31,105 @@ public class Hard3 {
     return 1;
   }
 
+
+  /**
+   * Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+   * @param height
+   * @return
+   */
+  public int trap(int[] height) {
+    int left =0; int right =height.length-1;
+    Set<Integer> s = new HashSet<>();
+    search(s,height,left,right);
+    int result=0;
+    for (int low :s){
+      int leftWall=low-1;
+      int rightWall = low;
+      while (height[leftWall]<height[leftWall-1]){
+        leftWall--;
+        if (leftWall==0){
+          break;
+        }
+      }
+      while (height[rightWall]<height[rightWall+1]){
+        rightWall++;
+        if (rightWall==height.length-1){
+          break;
+        }
+      }
+      int cloum = Math.min(height[rightWall],height[leftWall]);
+      int sum = cloum*(rightWall-leftWall-1);
+      for (int i=leftWall+1;i<rightWall;i++){
+        sum-=((height[i]>cloum) ? cloum : height[i]);
+      }
+      result+=sum;
+    }
+    return result;
+  }
+
+  /**
+   * 找极小值只过了1/3的testcase
+   * @param s
+   * @param height
+   * @param l
+   * @param r
+   */
+  public void search(Set s,int[] height,int l,int r){
+    if (l>r){
+      return;
+    }
+    int middle =(l+r)/2;
+    if (middle>=1&&middle<=height.length-2){
+      if (height[middle]<height[middle+1]
+          &&height[middle]<height[middle-1]){
+        s.add(middle);
+      }
+      search(s,height,l,middle-1);
+      search(s,height,middle+1,r);
+    }
+  }
+
+
+  /**
+   * 左右坐标，若左坐标值小于右坐标，则容纳大小依靠于左坐标值
+   * 此时左有落差，则计入容积
+   * 同样，若右坐标值小于左，则容纳大小依靠于右坐标值
+   * 右有落差，计入容积
+   * @param height
+   * @return
+   */
+  int trap2(int[] height)
+  {
+    int left = 0, right = height.length - 1;
+    int ans = 0;
+    int left_max = 0, right_max = 0;
+    while (left < right) {
+      if (height[left] < height[right]) {
+        if (height[left]>=left_max){
+          left_max=height[left];
+        }else {
+          ans += (left_max - height[left]);
+        }
+        ++left;
+      }
+      else {
+        if (height[right] >= right_max){
+          right_max = height[right];
+        }else {
+          ans += (right_max - height[right]);
+        }
+        --right;
+      }
+    }
+    return ans;
+  }
+
+
+
+
   @Test
   public void test(){
-    int[] nums = new int[]{1};
-    int index =firstMissingPositive(nums);
+    int[] nums = new int[]{5,2,1,2,1,5};
+    int reuslt=  trap2(nums);
   }
 }
