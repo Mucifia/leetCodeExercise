@@ -124,12 +124,39 @@ public class Hard3 {
     return ans;
   }
 
+  /**
+   * dynamic programing
+   * @param height
+   * @return
+   */
+  int trap3(int[] height){
+    if (height==null){
+      return 0;
+    }
+    int result = 0;
+    int[] left = new int[height.length];
+    int[] right =new int[height.length];
+    left[0] = height[0];
+    for (int i=1;i<height.length;i++){
+      left[i]=Math.max(height[i],left[i-1]);
+    }
+    right[height.length-1]=height[height.length-1];
+    for (int j=height.length-2;j>0;j--){
+      right[j]=Math.max(height[j],right[j+1]);
+    }
+    for (int k=1;k<height.length;k++){
+      result +=Math.min(left[k]-height[k],right[k]);
+    }
+    return result;
+  }
+
+
 
 
 
   @Test
   public void test(){
     int[] nums = new int[]{5,2,1,2,1,5};
-    int reuslt=  trap2(nums);
+    int reuslt=  trap3(nums);
   }
 }
