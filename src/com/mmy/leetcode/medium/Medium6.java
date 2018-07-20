@@ -1,13 +1,10 @@
 package com.mmy.leetcode.medium;
 
-import com.mmy.leetcode.medium.Medium1.ListNode;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 import org.junit.Test;
 
@@ -152,10 +149,75 @@ public class Medium6 {
 //
 //  }
 
+  /**
+   * 存不下这么大
+   * @param num1
+   * @param num2
+   * @return
+   */
+  public String multiply(String num1, String num2) {
+    if (num1.equals("0")||num2.equals("0")){
+      return "0";
+    }
+    int num1Len = num1.length();
+    int num2Len = num2.length();
+    int index=num1Len-1;
+    long result= Long.valueOf(0);
+    while (index>=0){
+      long mul = Long.valueOf(0);
+      int numA = (num1.charAt(index)-'0');
+      for (int k = num2Len-1;k>=0;k--){
+        int numB = (num2.charAt(k)-'0');
+        mul+=numA*Math.pow(10,num1Len-index-1)*numB*Math.pow(10,num2Len-k-1);
+      }
+      result+=mul;
+      index--;
+    }
+    return String.valueOf(result);
+  }
+
+  /**
+   * 利用数组来解决
+   */
+  public String multiplyOptimize(String num1, String num2) {
+    if (num1.equals("0")||num2.equals("0")){
+      return "0";
+    }
+    int num1Len = num1.length();
+    int num2Len = num2.length();
+    int index=num1Len-1;
+    int[] result = new int[num1Len+num2Len];
+    while (index>=0){
+      int numA = (num1.charAt(index)-'0');
+      for (int k = num2Len-1;k>=0;k--){
+        int numB = (num2.charAt(k)-'0');
+        int mul = numA*numB+result[index+k+1];
+        int a = (mul)/10;
+        int b = (mul)%10;
+        result[index+k+1]=b;
+        result[index+k]+=a;
+      }
+      index--;
+    }
+    StringBuilder stringBuilder = new StringBuilder();
+    for (int i=0;i<result.length;i++){
+      if (result[i]!=0||stringBuilder.length()!=0){
+        stringBuilder.append(result[i]);
+      }
+    }
+
+    return stringBuilder.toString();
+  }
+
+
+
+
 
   @Test
   public void test(){
     int[] nums=  new int[]{1,2,3,6,7};
     List<List<Integer>> lists =combinationSum2(nums,7);
+
+    String result  = multiplyOptimize("22","34");
   }
 }
