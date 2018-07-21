@@ -151,12 +151,46 @@ public class Hard3 {
   }
 
 
+  /**
+   * Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*'.
+   * '?' Matches any single character.
+   * '*' Matches any sequence of characters (including the empty sequence).
+   * @param s
+   * @param p
+   * @return
+   */
+  public boolean isMatch(String s, String p) {
+    char[] charS = s.toCharArray();
+    char[] charP = p.toCharArray();
+
+    boolean[][] ismatch = new boolean[charS.length+1][charP.length+1];
+    ismatch[0][0]=true;
+
+    for (int i =1;i<=charP.length;i++){
+      if (charP[i-1]=='*'&&ismatch[0][i-1]){
+        ismatch[0][i]=true;
+      }
+    }
+    for (int i = 0;i<charS.length;i++){
+      for (int j =0;j<charP.length;j++){
+        if (charP[j]=='?'||charP[j]==charS[i]){
+          ismatch[i+1][j+1]=ismatch[i][j];
+        }
+        if (charP[j]=='*'){
+          ismatch[i+1][j+1]=ismatch[i][j+1]||ismatch[i+1][j];
+        }
+      }
+    }
+    return ismatch[charS.length][charP.length];
+  }
+
+
+
 
 
 
   @Test
   public void test(){
-    int[] nums = new int[]{5,2,1,2,1,5};
-    int reuslt=  trap3(nums);
+    boolean a = isMatch("acdcb","a*c?b");
   }
 }
