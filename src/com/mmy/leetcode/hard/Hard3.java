@@ -184,13 +184,104 @@ public class Hard3 {
     return ismatch[charS.length][charP.length];
   }
 
+  /**
+   * Given an array of non-negative integers, you are initially positioned at the first index of the array.
+   *
+   * Each element in the array represents your maximum jump length at that position.
+   *
+   * Your goal is to reach the last index in the minimum number of jumps.
+   * 二维数组DP
+   * @param nums
+   * @return
+   */
+  public int jump(int[] nums) {
+    if (nums.length==0){
+      return 0;
+    }
+    int dis[][] = new int[nums.length+1][nums.length+1];
+    for (int i=0;i<=nums.length;i++){
+      for (int j=0;j<=nums.length;j++){
+        if (i==j){
+          dis[i][j]=0;
+        }else if (i<j){
+          dis[i][j]=Integer.MAX_VALUE;
+        }else {
+          dis[i][j]=-1;
+        }
+      }
+    }
+    for (int i=0;i<nums.length-1;i++){
+      for (int j=i+1;j<nums.length;j++){
+        for (int k = 1;k<=nums[j-1];k++){
+          if ((j+k)<=nums.length){
+            if (dis[i+1][j+k]>dis[i+1][j]+1){
+              dis[i+1][j+k]=dis[i+1][j]+1;
+            }
+          }
 
+        }
+      }
+    }
+    return dis[1][nums.length];
+  }
 
+  /**
+   * 最快答案，没看懂
+   * @param A
+   * @return
+   */
+  public int jump2(int[] A) {
+    if (A == null || A.length == 0) {
+      return -1;
+    }
+    int start = 0, end = 0, jumps = 0;
+    while (end < A.length - 1) {
+      jumps++;
+      int farthest = end;
+      for (int i = start; i <= end; i++) {
+        if (A[i] + i > farthest) {
+          farthest = A[i] + i;
+        }
+      }
+      start = end + 1;
+      end = farthest;
+    }
+    return jumps;
+  }
 
+  /**
+   * 一维数组DP
+   * @param nums
+   * @return
+   */
+  public int jump3(int[] nums) {
+    if (nums.length==0){
+      return 0;
+    }
+    int dis[] = new int[nums.length+1];
+    dis[0]=0;
+    dis[1]=0;
+    for (int i=2;i<=nums.length;i++){
+      dis[i]=Integer.MAX_VALUE;
+    }
+    int j =1;
+    while (j<nums.length){
+      for (int k = 1;k<=nums[j-1];k++){
+        if ((j+k)<=nums.length){
+          if (dis[j+k]>dis[j]+1){
+            dis[j+k]=dis[j]+1;
+          }
+        }
+
+      }
+    }
+    return dis[nums.length];
+  }
 
 
   @Test
   public void test(){
-    boolean a = isMatch("acdcb","a*c?b");
+    int[] nums = new int[]{2,3,1,1,4};
+    int j  = jump2(nums);
   }
 }
