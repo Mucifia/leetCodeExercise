@@ -1,5 +1,6 @@
 package com.mmy.leetcode.medium;
 
+import com.mmy.leetcode.medium.Medium1.ListNode;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
+import org.omg.PortableServer.LIFESPAN_POLICY_ID;
 
 /**
  * @author: mmy
@@ -209,15 +211,43 @@ public class Medium6 {
     return stringBuilder.toString();
   }
 
+  /**
+   * Given a collection of distinct integers, return all possible permutations.
+   * @param nums
+   * @return
+   */
+  public List<List<Integer>> permute(int[] nums) {
+    List<Integer> list = new ArrayList<>();
+    for(int i : nums){
+      list.add(i);
+    }
+    List<List<Integer>> result = new ArrayList<>();
+    search(new ArrayList<Integer>(),list,result);
+    return result;
+  }
+
+  public boolean search(List<Integer> list, List<Integer> rest, List<List<Integer>> result){
+    if(rest.size()>0){
+      for (int i=0;i<rest.size();i++){
+        List<Integer> restCopy = new ArrayList<>(rest);
+        List<Integer> listCopy = new ArrayList<>(list);
+        listCopy.add(restCopy.remove(i));
+        if (search(listCopy,restCopy,result)){
+          result.add(listCopy);
+        }
+      }
+      return false;
+    }
+    return true;
+  }
+
 
 
 
 
   @Test
   public void test(){
-    int[] nums=  new int[]{1,2,3,6,7};
-    List<List<Integer>> lists =combinationSum2(nums,7);
-
-    String result  = multiplyOptimize("22","34");
+    int[] nums = new int[]{1,2,3};
+    List<List<Integer>> lists = permute(nums);
   }
 }
