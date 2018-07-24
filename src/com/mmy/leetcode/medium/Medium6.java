@@ -241,13 +241,35 @@ public class Medium6 {
     return true;
   }
 
+  /**
+   * Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+   */
+  public List<List<Integer>> permuteUnique(int[] nums) {
+    List<List<Integer>> result = new ArrayList<>();
+    boolean[] visited = new boolean[nums.length];
+    Arrays.sort(nums);
+    search(new ArrayList<Integer>(),nums,result,visited);
+    return result;
+  }
 
-
-
-
+  public void search(List<Integer> list, int[] nums, List<List<Integer>> result,boolean[] visited){
+    if(list.size()<nums.length){
+      for (int i=0;i<nums.length;i++){
+        if (!visited[i]&& (i == 0 || nums[i] != nums[i-1] || visited[i-1])){
+          visited[i]=true;
+          list.add(nums[i]);
+          search(list,nums,result,visited);
+          list.remove(list.size()-1);
+          visited[i]=false;
+        }
+      }
+      return;
+    }
+    result.add(new ArrayList<>(list));
+  }
   @Test
   public void test(){
     int[] nums = new int[]{1,2,3};
-    List<List<Integer>> lists = permute(nums);
+    List<List<Integer>> lists = permuteUnique(nums);
   }
 }
