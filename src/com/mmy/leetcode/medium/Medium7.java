@@ -71,8 +71,77 @@ public class Medium7 {
     return new ArrayList<>(hashmap.values());
   }
 
+  /**
+   * Implement pow(x, n), which calculates x raised to the power n (xn).
+   *
+   * -100.0 < x < 100.0
+   * n is a 32-bit signed integer, within the range [−231, 231 − 1]
+   *
+   * 超时了
+   * @param x
+   * @param n
+   * @return
+   */
+  public double myPow(double x, int n) {
+    if (n==0){
+      return 1.0;
+    }
+    if (x==0){
+      return 0;
+    }
+    int exp = 1;
+    double result = Math.abs(x);
+    long most = Math.abs((long)n);
+    while (result!=Double.POSITIVE_INFINITY&&exp*2<=most){
+      result *= result;
+      exp+=exp;
+    }
+    if(result!=Double.POSITIVE_INFINITY) {
+      int expCopy = exp;
+      double resultCopy = result;
+      while (expCopy / 2 > 0) {
+        expCopy /= 2;
+        resultCopy = Math.sqrt(resultCopy);
+        while (exp + expCopy <= most) {
+          result *= resultCopy;
+          exp += expCopy;
+        }
+      }
+      int j = n&1;
+      if (n>0){
+        if (j==0){
+          return result;
+        }else {
+          return x>0?result:-1*result;
+        }
+      }else{
+        if (j==0){
+          return 1/result;
+        }else {
+          return x>0?1/result:-1/result;
+        }
+      }
+    }else if (n>0){
+      return x>0 ? Double.POSITIVE_INFINITY: Double.NEGATIVE_INFINITY;
+    }else {
+      return 0;
+    }
+  }
 
-
+  double mypow2(double x,int n){
+    if(n==0) return 1;
+    if(n<0){
+      if (n==Integer.MIN_VALUE){
+        if(x<0) x = -x;
+        x = 1/x;
+        return x * myPow(x,-(n+1));
+      }else{
+        n = -n;
+      }
+      x = 1/x;
+    }
+    return (n%2==0) ? myPow(x*x,n/2):x*myPow(x*x,n/2);
+  }
 
 
 
@@ -88,9 +157,14 @@ public class Medium7 {
 //        {13, 3, 6, 7},
 //        {15, 14, 12, 16}
 //    });
-    String[] s  = new String[]{"eat", "tea", "tan", "ate", "nat", "bat"};
-    List<List<String>> lists = groupAnagrams(s);
+//    String[] s  = new String[]{"eat", "tea", "tan", "ate", "nat", "bat"};
+//    List<List<String>> lists = groupAnagrams(s);
 
+
+    Double x = 2.0;
+    int n = -2;
+    Double result  = myPow(x,n);
+    Double test = Math.pow(x,n);
 
   }
 
