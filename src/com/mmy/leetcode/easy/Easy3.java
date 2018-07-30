@@ -44,8 +44,23 @@ public class Easy3 {
 
   @Test
   public  void test(){
-    int n=2;
-    String s = countAndSay(3);
+    int[] nums = new int[]{-2,1,-3,4,-1,2,1,-5,4};
+    int result = maxSubArray(nums);
+  }
+
+
+  public int maxSubArray(int[] nums) {
+    //largest sum left to i
+    int[] bigest =  new int[nums.length];
+    bigest[0]=nums[0];
+    int result = bigest[0];
+    for (int i=1;i<nums.length;i++){
+      bigest[i] = Math.max(bigest[i-1]+nums[i],nums[i]);
+      if (bigest[i]>result){
+        result= bigest[i];
+      }
+    }
+    return result;
   }
 
 
