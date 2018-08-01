@@ -175,6 +175,55 @@ public class Medium7 {
     return result;
   }
 
+  public boolean canJump(int[] nums) {
+    // farest[i] means the farest index which i can reach
+    int[] farest = new int[nums.length];
+    if(nums.length==0){
+      return true;
+    }
+    for (int i =0;i<nums.length;i++){
+      farest[i]=i;
+    }
+    for(int i =nums.length-1;i>=0;i--){
+      int jumpto = i+nums[i];
+      if (jumpto>=nums.length){
+        farest[i]=nums.length-1;
+      }else {
+        int des = jumpto;
+        for (int j =i+1; i<nums.length-1&&j<jumpto;j++){
+          if (farest[j]>farest[des]){
+            des = j;
+          }
+        }
+        farest[i]=farest[des];
+      }
+    }
+    return farest[0]==nums.length-1;
+  }
+
+  /**
+   * 速度最快的
+   * 用endIdx来代表能达到末尾的坐标，
+   * 然后时刻变化endidx就行
+   * 可惜！
+   * @param nums
+   * @return
+   */
+  public boolean canJump2(int[] nums) {
+    if(nums == null) return false;
+    int endIdx = nums.length - 1;
+    for(int i = endIdx - 1; i >= 0; i--) {
+      if(nums[i] + i >= endIdx) {
+        endIdx = i;
+      }
+    }
+    return endIdx == 0;
+  }
+
+
+
+
+
 
   @Test
   public void test() {
@@ -192,14 +241,21 @@ public class Medium7 {
 //    Double result = myPow(x, n);
 //    Double test = Math.pow(x, n);
 
-    int[][] matrix = new int[][]{
-        {5, 1, 9, 11},
-        {2, 4, 8, 10},
-        {13, 3, 6, 7},
-        {15, 14, 12, 16}
-    };
-    int[][] test = new int[][]{{1},{4}};
-    List<Integer> result = spiralOrder(test);
+//    int[][] matrix = new int[][]{
+//        {5, 1, 9, 11},
+//        {2, 4, 8, 10},
+//        {13, 3, 6, 7},
+//        {15, 14, 12, 16}
+//    };
+//    int[][] test = new int[][]{{1},{4}};
+//    List<Integer> result = spiralOrder(test);
+
+    int[] testCase1 = new int[]{2,3,1,1,4};
+    int[] testCase2 = new int[]{3,2,1,0,4};
+    int[] testCase3 = new int[]{2,5,0,0};
+    boolean result1 = canJump(testCase1);
+    boolean result2 = canJump(testCase2);
+    boolean result3 = canJump(testCase3);
   }
 
 }
