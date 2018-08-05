@@ -91,13 +91,60 @@ public class Easy3 {
     return lastLength;
   }
 
+  /**
+   * 59. Spiral Matrix II
+   * Given a positive integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+   * @param n
+   * @return
+   */
+  public int[][] generateMatrix(int n) {
+    if (n==0){
+      return null;
+    }
+    int[] xMove = new int[]{0,1,0,-1};
+    int[] yMove = new int[]{1,0,-1,0};
+    boolean[][] visited = new boolean[n][n];
+    int[][] result = new int[n][n];
+    int x=0,y=0;
+    int xOffset=0,yOffset=0;
+    int temp =1;
+    while (!visited[x][y]){
+      result[x][y]=temp++;
+      visited[x][y]=true;
+      int nextX = x+xMove[xOffset];
+      int nextY = y+yMove[yOffset];
+      if (nextX==n
+          ||nextY==n
+          ||nextY==-1
+          ||visited[nextX][nextY]){
+        xOffset=(xOffset+1)%xMove.length;
+        yOffset=(yOffset+1)%yMove.length;
+      }
+      x=x+xMove[xOffset];
+      y=y+yMove[yOffset];
+      if (x<0
+          ||x>=n
+          ||y<0
+          ||y>=n){
+        break;
+      }
+    }
+
+    return result;
+  }
+
+
+
+
 
   @Test
   public  void test(){
 //    int[] nums = new int[]{-2,1,-3,4,-1,2,1,-5,4};
 //    int result = maxSubArray(nums);
-    String s = "Hello World   ";
-    int result =  lengthOfLastWord(s);
+//    String s = "Hello World   ";
+//    int result =  lengthOfLastWord(s);
+    int n = 1;
+    int[][] result = generateMatrix(n);
 
   }
 
