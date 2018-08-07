@@ -29,6 +29,11 @@ class Interval {
     end = e;
   }
 }
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
+}
   /**
    * Input: [[1,3],[2,6],[8,10],[15,18]]
    * Output: [[1,6],[8,10],[15,18]]
@@ -222,6 +227,42 @@ class Interval {
     }
 
 
+    /**
+     * Given a linked list, rotate the list to the right by k places, where k is non-negative.
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode rotateRight(ListNode head, int k) {
+      ListNode node = head;
+      ListNode tail = head;
+      int length = 0;
+      while (node!=null){
+        length++;
+        node=node.next;
+        if (node!=null){
+          tail=node;
+        }
+      }
+      if (length==0){
+        return head;
+      }
+      int rotate = k%length;
+      if (rotate==0){
+        return head;
+      }
+      int index = 0;
+      ListNode rotateNode = head;
+      ListNode preRotareNode=rotateNode;
+      while (index+rotate!=length){
+        preRotareNode=rotateNode;
+        rotateNode=rotateNode.next;
+        index++;
+      }
+      preRotareNode.next=null;
+      tail.next=head;
+      return  rotateNode;
+    }
 
 
 
@@ -238,8 +279,19 @@ class Interval {
 //      list.add(i4);
 //      List<Interval> result  = merge(list);
 
-      String result =  getPermutation(5,6);
+//      String result =  getPermutation(5,6);
 
+
+      ListNode node1 = new ListNode(1);
+      ListNode node2 = new ListNode(2);
+      ListNode node3 = new ListNode(3);
+      ListNode node4 = new ListNode(4);
+      ListNode node5 = new ListNode(5);
+      node1.next=node2;
+      node2.next=node3;
+      node3.next=node4;
+      node4.next=node5;
+      ListNode result = rotateRight(node1,2);
     }
 
 
