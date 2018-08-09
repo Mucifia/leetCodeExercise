@@ -265,6 +265,75 @@ class ListNode {
     }
 
 
+    /**
+     *BackTrace TLS
+     *
+     * @param m
+     * @param n
+     * @return
+     */
+    public int uniquePaths(int m, int n) {
+      if (m==0||n==0){
+        return 0;
+      }
+      boolean[][] map = new boolean[m][n];
+      map[0][0] = true;
+      Count count=new Count(0);
+      searchHelper(map,0,0,count);
+      return count.count;
+    }
+
+
+    void searchHelper(boolean[][] map,int m,int n,Count count ){
+      if (!map[map.length-1][map[0].length-1]){
+        if (m+1<map.length&&!map[m+1][n]){
+          map[m+1][n]=true;
+          searchHelper(map,m+1,n,count);
+          map[m+1][n]=false;
+        }
+        if(n+1<map[0].length&&!map[m][n+1]){
+          map[m][n+1]=true;
+          searchHelper(map,m,n+1,count);
+          map[m][n+1]=false;
+        }
+      }else {
+        count.count++;
+      }
+    }
+
+    class Count{
+      int count;
+      Count(int val){
+        count=val;
+      }
+    }
+
+
+    /**
+     * try dynamic programing
+     * 由于两种路径来源不会有交集，所以直接加即可
+     * @param m
+     * @param n
+     * @return
+     */
+    public int uniquePaths2(int m, int n){
+      int[][] result = new int[m][n];
+      for (int i =0;i<m;i++){
+        result[i][0]=1;
+      }
+      for (int j =0;j<n;j++){
+        result[0][j]=1;
+      }
+      for (int i =1 ; i<m;i++){
+        for (int j =1;j<n;j++){
+          result[i][j]=result[i-1][j]+result[i][j-1];
+        }
+      }
+      return result[m-1][n-1];
+    }
+
+
+
 
     @Test
     public void test(){
@@ -282,16 +351,20 @@ class ListNode {
 //      String result =  getPermutation(5,6);
 
 
-      ListNode node1 = new ListNode(1);
-      ListNode node2 = new ListNode(2);
-      ListNode node3 = new ListNode(3);
-      ListNode node4 = new ListNode(4);
-      ListNode node5 = new ListNode(5);
-      node1.next=node2;
-      node2.next=node3;
-      node3.next=node4;
-      node4.next=node5;
-      ListNode result = rotateRight(node1,2);
+//      ListNode node1 = new ListNode(1);
+//      ListNode node2 = new ListNode(2);
+//      ListNode node3 = new ListNode(3);
+//      ListNode node4 = new ListNode(4);
+//      ListNode node5 = new ListNode(5);
+//      node1.next=node2;
+//      node2.next=node3;
+//      node3.next=node4;
+//      node4.next=node5;
+//      ListNode result = rotateRight(node1,2);
+
+        int m =7 ;
+        int n =3;
+        int result = uniquePaths2(m,n);
     }
 
 
