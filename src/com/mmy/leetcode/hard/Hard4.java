@@ -67,6 +67,94 @@ public class Hard4 {
     return result;
   }
 
+
+  /**
+   *Validate if a given string is numeric.
+   Some examples:
+   "0" => true
+   " 0.1 " => true
+   "abc" => false
+   "1 a" => false
+   "2e10" => true
+   只通过了 1342/1421
+   *
+   * @param s
+   * @return
+   */
+  public boolean isNumber(String s) {
+    String sTrim = s.trim();
+    char[] sChars = sTrim.toCharArray();
+    boolean isValid =false;
+    int dot = 0;
+    int e =0;
+    for (int i =0;i<sChars.length;i++){
+      if (sChars[i]>='0'&&sChars[i]<='9'){
+          isValid=true;
+      }else if (sChars[i]=='.'){
+        if (dot==2){
+          return false;
+        }else if (i==0){
+          dot++;
+        }else if (sChars[i-1]<'0'||sChars[i-1]>'9'){
+          return false;
+        }else {
+          dot++;
+        }
+      }else if (sChars[i]=='e'){
+        if (e==1){
+          return false;
+        }else if (i==0){
+          return false;
+        }else if (sChars[i-1]<'0'||sChars[i-1]>'9'){
+          return false;
+        }else {
+          e++;
+        }
+      }else {
+        return false;
+      }
+    }
+    return isValid;
+  }
+
+  public boolean isNumber2(String s) {
+    s = s.trim();
+
+    boolean pointSeen = false;
+    boolean eSeen = false;
+    boolean numberSeen = false;
+    boolean numberAfterE = true;
+    for(int i=0; i<s.length(); i++) {
+      if('0' <= s.charAt(i) && s.charAt(i) <= '9') {
+        numberSeen = true;
+        numberAfterE = true;
+      } else if(s.charAt(i) == '.') {
+        if(eSeen || pointSeen) {
+          return false;
+        }
+        pointSeen = true;
+      } else if(s.charAt(i) == 'e') {
+        if(eSeen || !numberSeen) {
+          return false;
+        }
+        numberAfterE = false;
+        eSeen = true;
+      } else if(s.charAt(i) == '-' || s.charAt(i) == '+') {
+        if(i != 0 && s.charAt(i-1) != 'e') {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+
+    return numberSeen && numberAfterE;
+  }
+
+
+
+
+
   @Test
   public void test(){
     Interval i1 = new Interval(1,2);
