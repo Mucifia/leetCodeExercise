@@ -123,6 +123,60 @@ public class Easy3 {
   }
 
 
+  /**
+   * Given two binary strings, return their sum (also a binary string).
+   *
+   * The input strings are both non-empty and contains only characters 1 or 0.
+   * @param a
+   * @param b
+   * @return
+   */
+  public String addBinary(String a, String b) {
+    StringBuilder sb = new StringBuilder();
+    int indexA=a.length()-1;
+    int indexB=b.length()-1;
+    int newestTemp=0;
+    while (indexA>-1&&indexB>-1){
+      int iA = a.charAt(indexA)-'0';
+      int iB = b.charAt(indexB)-'0';
+      int sum = iA+iB+newestTemp;
+      if (sum>=2){
+        newestTemp=1;
+      }else {
+        newestTemp=0;
+      }
+      sb.append(sum%2);
+      indexA--;
+      indexB--;
+    }
+    while (indexA>-1){
+      int iA = a.charAt(indexA)-'0';
+      int sum=iA+newestTemp;
+      if (sum>=2){
+        newestTemp=1;
+      }else {
+        newestTemp=0;
+      }
+      sb.append(sum%2);
+      indexA--;
+    }
+    while (indexB>-1){
+      int iB = b.charAt(indexB)-'0';
+      int sum=iB+newestTemp;
+      if (sum>=2){
+        newestTemp=1;
+      }else {
+        newestTemp=0;
+      }
+      sb.append(sum%2);
+      indexB--;
+    }
+    if (newestTemp>0){
+      sb.append(newestTemp);
+    }
+    return sb.reverse().toString();
+  }
+
 
 
 
@@ -132,12 +186,18 @@ public class Easy3 {
 //    int result = maxSubArray(nums);
 //    String s = "Hello World   ";
 //    int result =  lengthOfLastWord(s);
-    int[] test1 = new int[]{1,2,3};
-    int[] test2 = new int[]{9,9,9};
-    int[] test3 = new int[]{0};
-    int[] result =plusOne(test1);
-    int[] result2 =plusOne(test2);
-    int[] result3 =plusOne(test3);
+//    int[] test1 = new int[]{1,2,3};
+//    int[] test2 = new int[]{9,9,9};
+//    int[] test3 = new int[]{0};
+//    int[] result =plusOne(test1);
+//    int[] result2 =plusOne(test2);
+//    int[] result3 =plusOne(test3);
+    String test1A = "0";String test1B = "0";
+    String test2A = "110";String test2B = "1";
+    String test3A = "011";String test3B = "1";
+    String result = addBinary(test1A,test1B);
+    String result2 = addBinary(test2A,test2B);
+    String result3 = addBinary(test3A,test3B);
   }
 
 
