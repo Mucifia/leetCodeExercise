@@ -1,5 +1,6 @@
 package com.mmy.leetcode.easy;
 
+import java.util.Arrays;
 import org.junit.Test;
 
 /**
@@ -92,6 +93,34 @@ public class Easy3 {
   }
 
 
+  /**
+   * 66. Plus One
+   * Given a non-empty array of digits representing a non-negative integer, plus one to the integer.
+   * The digits are stored such that the most significant digit is at the head of the list, and each element in the array contain a single digit.
+   * You may assume the integer does not contain any leading zero, except the number 0 itself.
+   * @param digits
+   * @return
+   */
+  public int[] plusOne(int[] digits) {
+    int[] result;
+    result=new int[digits.length+1];
+    for (int j=digits.length-1;j>=0;j--){
+      int temp;
+      if (j==digits.length-1){
+         temp= result[j+1]+digits[j]+1;
+      }else {
+        temp=result[j+1]+digits[j];
+      }
+      if (temp>=10){
+        result[j]=1;
+      }
+      result[j+1]=temp%10;
+    }
+    if (result[0]==0){
+      return Arrays.copyOfRange(result,1,result.length);
+    }
+    return result;
+  }
 
 
 
@@ -103,6 +132,12 @@ public class Easy3 {
 //    int result = maxSubArray(nums);
 //    String s = "Hello World   ";
 //    int result =  lengthOfLastWord(s);
+    int[] test1 = new int[]{1,2,3};
+    int[] test2 = new int[]{9,9,9};
+    int[] test3 = new int[]{0};
+    int[] result =plusOne(test1);
+    int[] result2 =plusOne(test2);
+    int[] result3 =plusOne(test3);
   }
 
 
