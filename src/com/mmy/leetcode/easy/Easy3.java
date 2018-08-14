@@ -239,13 +239,19 @@ public class Easy3 {
 //    int[] test3 = new int[]{0};
 //    int[] result =plusOne(test1);
 //    int[] result2 =plusOne(test2);
-//    int[] result3 =plusOne(test3);
-    String test1A = "0";String test1B = "0";
-    String test2A = "110";String test2B = "1";
-    String test3A = "011";String test3B = "1";
-    String result = addBinary(test1A,test1B);
-    String result2 = addBinary(test2A,test2B);
-    String result3 = addBinary(test3A,test3B);
+////    int[] result3 =plusOne(test3);
+//    String test1A = "0";String test1B = "0";
+//    String test2A = "110";String test2B = "1";
+//    String test3A = "011";String test3B = "1";
+//    String result = addBinary(test1A,test1B);
+//    String result2 = addBinary(test2A,test2B);
+//    String result3 = addBinary(test3A,test3B);
+    int test1 = 4;
+    int test2 =8;
+    int test3 =9;
+    int x1=mySqrt(test1);
+    int x2=mySqrt(test2);
+    int x3=mySqrt(test3);
   }
 
 
