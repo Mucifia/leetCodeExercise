@@ -271,6 +271,43 @@ public class Hard4 {
     return lines;
   }
 
+
+  /**
+   * Given two words word1 and word2, find the minimum number of operations required to convert word1 to word2.
+   *
+   * You have the following 3 operations permitted on a word:
+   *
+   * Insert a character
+   * Delete a character
+   * Replace a character
+   * @param word1
+   * @param word2
+   * @return
+   */
+  public int minDistance(String word1, String word2) {
+    int[][] distance = new int[word1.length()+1][word2.length()+1];
+    for (int i=0;i<=word1.length();i++){
+      distance[i][0]=i;
+    }
+    for (int j=0;j<=word2.length();j++){
+      distance[0][j]=j;
+    }
+    for (int i=1;i<=word1.length();i++){
+      for (int j=1;j<=word2.length();j++){
+        int temp = distance[i-1][j]+1;
+        temp = Math.min(temp,distance[i][j-1]+1);
+        if (word1.charAt(i-1)==word2.charAt(j-1)){
+          temp=Math.min(temp,distance[i-1][j-1]);
+        }else {
+          temp=Math.min(temp,distance[i-1][j-1]+1);
+        }
+        distance[i][j]=temp;
+      }
+    }
+    return distance[word1.length()][word2.length()];
+  }
+
+
   @Test
   public void test() {
 //    Interval i1 = new Interval(1,2);
@@ -286,17 +323,23 @@ public class Hard4 {
 //    list.add(i4);
 //    list.add(i5);
 //    List<Interval> result  = insert(list,i6);
+//
+//    String[] words = new String[]{"This", "is", "an", "example", "of", "text", "justification."};
+//    String[] words2 = new String[]{"What", "must", "be", "acknowledgment", "shall", "be"};
+//    String[] words3 = new String[]{"Science", "is", "what", "we", "understand", "well", "enough",
+//        "to", "explain",
+//        "to", "a", "computer.", "Art", "is", "everything", "else", "we", "do"};
+//    String[] word4 =new String[]{"ask","not","what","your","country","can","do","for","you","ask","what","you","can","do","for","your","country"};
+//    List<String> result = fullJustify(words, 16);
+//    List<String> result2 = fullJustify(words2, 16);
+//    List<String> result3 = fullJustify(words3, 20);
+//    List<String> result4 =fullJustify(word4,16);
 
-    String[] words = new String[]{"This", "is", "an", "example", "of", "text", "justification."};
-    String[] words2 = new String[]{"What", "must", "be", "acknowledgment", "shall", "be"};
-    String[] words3 = new String[]{"Science", "is", "what", "we", "understand", "well", "enough",
-        "to", "explain",
-        "to", "a", "computer.", "Art", "is", "everything", "else", "we", "do"};
-    String[] word4 =new String[]{"ask","not","what","your","country","can","do","for","you","ask","what","you","can","do","for","your","country"};
-    List<String> result = fullJustify(words, 16);
-    List<String> result2 = fullJustify(words2, 16);
-    List<String> result3 = fullJustify(words3, 20);
-    List<String> result4 =fullJustify(word4,16);
+
+
+    String test1 = "horse";
+    String test2 = "rose";
+    int result =minDistance(test1,test2);
   }
 
 }
