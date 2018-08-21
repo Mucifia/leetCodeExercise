@@ -267,6 +267,56 @@ public class Medium9 {
     }
   }
 
+  /**
+   * 2分法做
+   * @param matrix
+   * @param target
+   * @return
+   */
+  public boolean searchMatrix(int[][] matrix, int target) {
+    int rightTopX =0;
+    int rightTopY = matrix[0].length-1;
+    while (rightTopX<matrix.length&&rightTopY>=0){
+      int val  = matrix[rightTopX][rightTopY];
+      if (target>val){
+        rightTopX++;
+      }else if (target<val){
+        rightTopY--;
+      }else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * 另一种2分法，很快
+   * @param matrix
+   * @param target
+   * @return
+   */
+  public boolean searchMatrix2(int[][] matrix, int target) {
+    if(matrix==null || matrix.length==0 || matrix[0].length ==0) return false;
+    int l =0,r=matrix.length*matrix[0].length-1;
+    int col=matrix[0].length;
+    while(l+1<r){
+      int mid = l +(r-l)/2;
+      if(matrix[mid/col][mid%col]>target){
+        r = mid;
+      }else{
+        l = mid;
+      }
+    }
+
+    return matrix[l/col][l%col]==target || matrix[r/col][r%col]==target;
+
+
+  }
+
+
+
+
+
   @Test
   public void test() {
 //      int[][] obstacles = new int[][]{{0,0,0},{0,1,0},{0,0,0}};
