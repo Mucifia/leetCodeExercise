@@ -3,8 +3,11 @@ package com.mmy.leetcode.hard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.Test;
+import org.omg.CORBA.INTERNAL;
 
 /**
  * @author: mmy
@@ -306,6 +309,77 @@ public class Hard4 {
     }
     return distance[word1.length()][word2.length()];
   }
+
+
+
+  /**
+   * 76. Minimum Window Substring
+   * Given a string S and a string T,
+   * find the minimum window in S which will contain all the characters in T in complexity O(n).
+   * Input: S = "ADOBECODEBANC", T = "ABC"
+   * Output: "BANC"
+   * @param s
+   * @param t
+   * @return
+   *
+   * 所有的字符个数都以ascii的方式存入int数组中
+   * 下标为ascii，值为个数
+   */
+  public String minWindow2(String s, String t) {
+    int[] map = new int[128];
+    for (char c : t.toCharArray())
+      map[c]++;
+    int counter = t.length(), begin = 0, end = 0, distance = Integer.MAX_VALUE, head = 0;
+    while (end < s.length()) {
+      if (map[s.charAt(end++)]-- > 0)
+        counter--;
+      while (counter == 0) { // valid
+        if (end - begin < distance)
+          distance = end - (head = begin);
+        if (map[s.charAt(begin++)]++ == 0)
+          counter++; // make it invalid
+      }
+    }
+    return distance == Integer.MAX_VALUE ? "" : s.substring(head, head + distance);
+  }
+
+  public boolean enough(int[] sInt, int[] tInt){
+    for (int i=0;i<tInt.length;i++){
+      if(sInt[i]<tInt[i]){
+        return false;//一个不够就不够
+      }
+    }
+    return true;
+  }
+
+  public String minWindow(String s, String t) {
+    String resultDefault="";
+    int[] tInt = new int[128];
+    int[] sInt = new int[128];
+    for (int i=0;i<t.length();i++){
+      tInt[t.charAt(i)]++;
+    }
+
+    int right = 0;
+    int min = Integer.MIN_VALUE;
+    //窗口左由i负责，
+    //先将右坐标拉到最有边，然后调整左标
+    for (int i=0;i<s.length();i++){
+      while (right<s.length()&&!enough(sInt,tInt)){
+        sInt[s.charAt(right)]++;
+        right++;
+      }
+      if (enough(sInt,tInt)&&min>right-i+1){
+        resultDefault =s.substring(i,right-i+1);
+        min=right-i+1;
+      }
+      sInt[s.charAt(i)]--;
+    }
+    return resultDefault;
+  }
+
+
+
 
 
   @Test
