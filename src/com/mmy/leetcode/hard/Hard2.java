@@ -240,7 +240,8 @@ public class Hard2 {
       if (c=='('){
         //提供被匹配和被匹配的串首index作用
         stack.push(stringIndex);
-      }else {
+      }else if (c==')')
+      {
         //初始化插入的栈底-1，既保证初始index，还保证了，若一直不匹配，栈中只会有1个元素，做了定位作用
         stack.pop();
         if (!stack.empty()){
@@ -265,7 +266,7 @@ public class Hard2 {
 
   @Test
   public void test(){
-    String s = "()()((((((())(((())()(((()";
+    String s = "()(()()(";
     int i  =longestValidParentheses(s);
   }
 
