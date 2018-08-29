@@ -120,12 +120,47 @@ public class Medium10 {
     }
   }
 
+
+  /**
+   * Given a set of distinct integers, nums, return all possible subsets (the power set).
+   * Input: nums = [1,2,3]
+   * Output:
+   * [
+   *   [3],
+   *   [1],
+   *   [2],
+   *   [1,2,3],
+   *   [1,3],
+   *   [2,3],
+   *   [1,2],
+   *   []
+   * ]
+   * @param nums
+   * @return
+   */
+  public List<List<Integer>> subsets(int[] nums) {
+    List<List<Integer>> result = new ArrayList<>();
+    backtrace(result,new ArrayList<>(),nums,0);
+    return result;
+  }
+
+  public void backtrace(List<List<Integer>> result, List<Integer> temp , int[] nums,int index){
+     result.add(temp);
+     for (int i =index;i<nums.length;i++){
+       temp.add(nums[i]);
+       backtrace(result,new ArrayList<>(temp),nums,i+1);
+       temp.remove(temp.size()-1);
+     }
+  }
+
   @Test
   public void test(){
 //    int[] test1 = new int[]{2,0,2,1,1,0};
 //    sortColors(test1);
-    int n =4;
-    int k=2;
-    List<List<Integer>> result = combine(n,k);
+//    int n =4;
+////    int k=2;
+////    List<List<Integer>> result = combine(n,k);
+    int[] nums= new int[]{1,2,3};
+    List<List<Integer>> result = subsets(nums);
   }
 }
