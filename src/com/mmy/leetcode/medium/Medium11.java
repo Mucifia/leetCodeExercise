@@ -211,6 +211,38 @@ public class Medium11 {
     return head;
   }
 
+
+  /**  Given a sorted linked list, delete all duplicates such that each element appear only once.
+   *
+   */
+  public ListNode deleteDuplicates2(ListNode head) {
+    if (head==null){
+      return null;
+    }
+    ListNode newHead = head;
+    ListNode tail = newHead;
+    while (newHead.next!=null){
+      newHead=newHead.next;
+      if(newHead.val==tail.val){
+        continue;
+      }else {
+        tail.next=newHead;
+        tail=tail.next;
+      }
+    }
+    tail.next=null;
+    return head;
+  }
+
+  //ont point!
+//  public ListNode deleteDuplicates(ListNode head) {
+//    ListNode list = head;
+//    while(list!=null&&list.next!=null){
+//      if(list.val == list.next.val) list.next = list.next.next;
+//      else list = list.next;
+//    }
+//    return head;
+//  }
   @Test
   public void test() {
 //    int[] test1 = new int[]{1,1,1,2,2,3};
@@ -227,7 +259,7 @@ public class Medium11 {
 //    node1.next.next.next.next = new ListNode(4);
 //    node1.next.next.next.next.next = new ListNode(4);
 //    node1.next.next.next.next.next.next= new ListNode(5);
-    ListNode result = deleteDuplicates(node1);
+    ListNode result = deleteDuplicates2(node1);
   }
 
 }
