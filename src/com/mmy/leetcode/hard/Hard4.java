@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import org.junit.Test;
 import org.omg.CORBA.INTERNAL;
 
@@ -379,7 +380,58 @@ public class Hard4 {
   }
 
 
+  /**
+   * 84. Largest Rectangle in Histogram
+   * mermory limit exceed;
+   * @param heights
+   * @return
+   */
+  public int largestRectangleArea(int[] heights) {
+    if(heights.length==0){
+      return 0;
+    }
+    int[][] lowest = new int[heights.length][heights.length];
+    int largesttAre = heights[0];
+    for (int i=0;i<heights.length;i++){
+      lowest[i][i]=heights[i];
+      if (lowest[i][i]>largesttAre){
+        largesttAre=lowest[i][i];
+      }
+      for (int j=i+1;j<heights.length;j++){
+        lowest[i][j]=Math.min(lowest[i][j-1],heights[j]);
+        if (lowest[i][j]*(j-i+1)>largesttAre){
+          largesttAre=lowest[i][j]*(j-i+1);
+        }
+      }
+    }
+    return largesttAre;
+  }
 
+
+  public int largestRectangleArea2(int[] heights) {
+
+    if (heights.length == 0) return 0;
+
+    Stack<Integer> st = new Stack<>();
+    int area = 0;
+
+    for (int i = 0; i <= heights.length; i++) {
+      //the only trick is here, we would cover every elements, so that we have to pop last element
+      //by given the cur a smaller number like 0.
+      int cur = i == heights.length ? 0 : heights[i];
+      while (!st.isEmpty() && cur <= heights[st.peek()]) {
+        //I like to not mix the left index calculation.
+        //so there are two conditions: 1) stack is empty, we use 0 as the most left index
+        //                             2) use peek element, remember we have poped one element, so +1 to adjust
+        int tmp = heights[st.pop()] * (i - (st.isEmpty() ? 0 : (st.peek() + 1)));
+        if (tmp > area)
+          area = tmp;
+      }
+      st.push(i);
+    }
+
+    return area;
+  }
 
 
   @Test
@@ -411,9 +463,12 @@ public class Hard4 {
 
 
 
-    String test1 = "horse";
-    String test2 = "rose";
-    int result =minDistance(test1,test2);
+//    String test1 = "horse";
+//    String test2 = "rose";
+//    int result =minDistance(test1,test2);
+
+    int[] test =  new int[]{0,9};
+    int result = largestRectangleArea(test);
   }
 
 }
